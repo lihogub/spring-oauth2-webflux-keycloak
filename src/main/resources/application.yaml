@@ -1,0 +1,16 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: "http://localhost:8181/auth/realms/myrealm"
+      client:
+        provider:
+          keycloak:
+            token-uri: "http://localhost:8181/auth/realms/myrealm/protocol/openid-connect/token"
+        registration:
+          keycloak:
+            client-id: frontendclient
+            client-secret: o2gy6B55GtGJ57tthN4vaana0wJf4YEq
+            authorization-grant-type: client_credentials
+            scope: openid
