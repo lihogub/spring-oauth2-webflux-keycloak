@@ -23,16 +23,29 @@ public class ExampleHandler {
         this.oAuth2AuthorizedWebClient = oAuth2AuthorizedWebClient;
     }
 
+    /*
+    * Public endpoint
+    * Allows performing anonymous requests
+    */
     public Mono<ServerResponse> endpointPublic(ServerRequest serverRequest) {
         return Mono.just("/public")
                 .flatMap(s -> ServerResponse.ok().bodyValue(s));
     }
 
+    /*
+     * Private endpoint
+     * Requires users JWT
+     */
     public Mono<ServerResponse> endpointPrivate(ServerRequest serverRequest) {
         return Mono.just("/private")
                 .flatMap(s -> ServerResponse.ok().bodyValue(s));
     }
 
+    /*
+     * Private endpoint
+     * Performs nested call to private endpoint
+     * Passes users JWT to nested request
+     */
     public Mono<ServerResponse> endpointPrivateToPrivateWithUsersCredentials(ServerRequest serverRequest) {
         return defaultWebClient
                 .get()
@@ -47,6 +60,10 @@ public class ExampleHandler {
                 .flatMap(s -> ServerResponse.ok().bodyValue(s));
     }
 
+    /*
+     * Private endpoint
+     * Performs nested call to public endpoint
+     */
     public Mono<ServerResponse> endpointPrivateToPublic(ServerRequest serverRequest) {
         return defaultWebClient.get()
                 .uri("http://localhost:8080/public")
@@ -56,6 +73,10 @@ public class ExampleHandler {
                 .flatMap(s -> ServerResponse.ok().bodyValue(s));
     }
 
+    /*
+     * Public endpoint
+     * Performs nested call to private endpoint using OAuth2 client_credentials
+     */
     public Mono<ServerResponse> endpointPublicToPrivate(ServerRequest serverRequest) {
         return oAuth2AuthorizedWebClient.get()
                 .uri("http://localhost:8080/private")

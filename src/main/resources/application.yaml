@@ -3,12 +3,14 @@ spring:
     oauth2:
       resourceserver:
         jwt:
+          # keycloak issuer-uri of "myrealm" realm
           issuer-uri: "http://localhost:8181/auth/realms/myrealm"
       client:
         provider:
           keycloak:
             token-uri: "http://localhost:8181/auth/realms/myrealm/protocol/openid-connect/token"
         registration:
+          # client credentials
           keycloak:
             client-id: frontendclient
             client-secret: o2gy6B55GtGJ57tthN4vaana0wJf4YEq

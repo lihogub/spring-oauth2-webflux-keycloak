@@ -10,11 +10,17 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class WebClientConfig {
 
+    /*
+     * Creates default WebClient bean
+     */
     @Bean
     WebClient webClientDefault() {
         return WebClient.create();
     }
 
+    /*
+     * Created OAuth2 authorized WebClient using "keycloak" configuration in application.yaml
+     */
     @Bean("oauth-client")
     WebClient webClientOauthAuthorized(ReactiveClientRegistrationRepository clientRegistrations,
                         ServerOAuth2AuthorizedClientRepository authorizedClients) {
