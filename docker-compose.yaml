@@ -1,0 +1,46 @@
+version: '3.9'
+
+services:
+  spring-oauth2-webflux-keycloak:
+    build: ./
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      KEYCLOAK_HOST: keycloak
+      KEYCLOAK_PORT: 8080
+      KEYCLOAK_REALM: myrealm
+    depends_on:
+      - keycloak
+  keycloak:
+    image: jboss/keycloak:16.1.0
+    restart: unless-stopped
+    environment:
+      # User and password for the Administration Console
+      KEYCLOAK_USER: admin_user
+      KEYCLOAK_PASSWORD: admin_password
+      DB_VENDOR: postgres
+      DB_ADDR: postgres
+      DB_PORT: 5432
+      # Same values as the mysql-kc service
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_DATABASE: keycloak
+    depends_on:
+      - postgres
+    ports:
+      - "8181:8080"
+  postgres:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5431:5432"
+volumes:
+  postgres_data:
+    driver: local

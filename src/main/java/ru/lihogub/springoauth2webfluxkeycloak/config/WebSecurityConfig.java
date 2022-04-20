@@ -18,7 +18,7 @@ public class WebSecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeExchange(exchanges -> exchanges
-                                .pathMatchers("/public").permitAll()
+                                .pathMatchers("/public/**").permitAll()
                                 .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(ServerHttpSecurity.OAuth2ResourceServerSpec::jwt)
